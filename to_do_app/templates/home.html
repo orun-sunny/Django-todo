@@ -1,5 +1,5 @@
 {% load static %} {% extends 'base.html' %} {% block title %} TO DO - ALL {%
-endblock title %} {% block content %}
+endblock %} {% block content %}
 <section>
   {% include 'section_title.html' with section_title=sec_title %} {% if tasks %}
   {% endif %}
@@ -81,11 +81,11 @@ endblock title %} {% block content %}
       </tbody>
     </table>
   </div>
-  {% else %}
+  {% comment %} {% else %} {% endcomment %}
   <div class="flex justify-center items-center">
     <h1 class="text-2xl text-gray-500">No Tasks Found</h1>
   </div>
-  {% endif %}
+  {% comment %} {% endif %} {% endcomment %}
 
   <div class="mt-5 flex items-center justify-between me-2">
     <div>
@@ -124,4 +124,4 @@ endblock title %} {% block content %}
     </div>
   </div>
 </section>
-{% endblock content %}
+{% endblock %}
