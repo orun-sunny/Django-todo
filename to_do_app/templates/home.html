@@ -1,0 +1,127 @@
+{% load static %} {% extends 'base.html' %} {% block title %} TO DO - ALL {%
+endblock title %} {% block content %}
+<section>
+  {% include 'section_title.html' with section_title=sec_title %} {% if tasks %}
+  {% endif %}
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
+    <table class="w-full text-sm text-left text-gray-600">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-200">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-center">ID</th>
+          <th scope="col" class="px-6 py-3">Title</th>
+          <th scope="col" class="px-6 py-3">Description</th>
+          <th scope="col" class="px-6 py-3">Status</th>
+          <th scope="col" class="px-6 py-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in tasks %}
+        <tr class="{% cycle 'bg-white' 'bg-gray-100' %} border-b">
+          <td class="text-center">
+            <a
+              href="#"
+              class="inline-block font-medium text-lg text-blue-600 hover:bg-green-100 hover:text-green-600 w-7 h-8 rounded-full"
+            >
+              {{item.pk}}
+            </a>
+          </td>
+          <th
+            scope="row"
+            class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap"
+          >
+            {{item.taskTitle}}
+          </th>
+          <td class="px-6 py-4">{{item.taskDescription}}</td>
+          {% if item.is_completed %}
+          <td class="px-6 py-4">
+            <span
+              class="inline-block bg-green-100 text-green-600 px-2 py-1 rounded-full"
+              >Complete</span
+            >
+          </td>
+          {% else %}
+          <td class="px-6 py-4">
+            <span
+              class="inline-block bg-red-100 text-red-600 px-2 py-1 rounded-full"
+              >Incomplete</span
+            >
+          </td>
+          {% endif %}
+
+          <td class="px-6 py-4 mx-auto">
+            <a
+              href="{% url 'edit_task' pk=item.pk %}"
+              class="inline-block font-medium text-lg text-center text-blue-600 hover:bg-sky-100 hover:text-sky-600 w-7 h-7 rounded-full"
+            >
+              <span title="Edit" class="text-lg">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </span>
+            </a>
+            <a
+              href="{% url 'delete_task' pk=item.pk %}"
+              class="inline-block font-medium text-lg text-center text-blue-600 hover:bg-red-100 hover:text-red-600 ml-1 w-7 h-7 rounded-full"
+            >
+              <span title="Delete" class="text-lg">
+                <i class="fa-regular fa-trash-can"></i>
+              </span>
+            </a>
+            {% if not item.is_completed %}
+            <a
+              href="{% url 'done_task' pk=item.pk %}"
+              class="inline-block font-medium text-lg text-center text-blue-600 hover:bg-green-100 hover:text-green-600 ml-1 w-7 h-7 rounded-full"
+            >
+              <span title="Complete" class="text-lg">
+                <i class="fa-regular fa-circle-check"></i>
+              </span>
+            </a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="flex justify-center items-center">
+    <h1 class="text-2xl text-gray-500">No Tasks Found</h1>
+  </div>
+  {% endif %}
+
+  <div class="mt-5 flex items-center justify-between me-2">
+    <div>
+      <a
+        href="{% url 'add_task' %}"
+        class="inline-block font-medium text-lg text-center text-blue-600 bg-green-100 hover:bg-green-700 hover:text-green-100 w-7 h-7 rounded-full flex justify-center items-center shadow-lg shadow-blue-500/50"
+      >
+        <span title="Add Task" class="text-2xl">
+          <i class="fa-regular fa-plus"></i>
+        </span>
+      </a>
+    </div>
+
+    <div>
+      {% if sec_title == 'Incomplete Tasks' %}
+      <a
+        href="{% url 'complete_tasks' %}"
+        class="inline-block font-medium text-lg text-center text-blue-600 hover:text-green-600 rounded-full flex justify-center items-center shadow-lg shadow-blue-500/50 px-2.5"
+      >
+        Complete tasks
+        <span title="Add Task" class="text-2xl ms-2">
+          <i class="fa-regular fa-circle-check"></i>
+        </span>
+      </a>
+      {% else %}
+      <a
+        href="{% url 'home' %}"
+        class="inline-block font-medium text-lg text-center text-blue-600 hover:text-red-600 rounded-full flex justify-center items-center shadow-lg shadow-blue-500/50 px-2.5"
+      >
+        Incomplete tasks
+        <span title="Add Task" class="text-2xl ms-2">
+          <i class="fa-regular fa-circle-xmark"></i>
+        </span>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock content %}
